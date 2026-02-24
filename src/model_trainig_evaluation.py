@@ -114,3 +114,21 @@ Se seleccionó Logistic Regression como modelo final debido a:
 Conclusión:
 El modelo presenta buen desempeño predictivo y capacidad de generalización.
 """)
+    
+
+
+    import joblib
+import os
+
+# ... cuando ya tengas el pipe entrenado que quieres guardar, por ejemplo:
+best_model_name = results_df["f1"].idxmax()
+best_model = models[best_model_name]
+best_pipe = build_model(preprocessor, best_model)
+best_pipe.fit(X_train, y_train)
+
+# Guardar en miops_pipeline/ (sin crear carpetas nuevas)
+out_dir = os.path.join(os.path.dirname(__file__), "..", "miops_pipeline")
+os.makedirs(out_dir, exist_ok=True)
+
+joblib.dump(best_pipe, os.path.join(out_dir, "best_model.joblib"))
+print("Modelo guardado en miops_pipeline/best_model.joblib")
