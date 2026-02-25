@@ -15,6 +15,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 
+
 # =============================
 # FUNCION METRICAS
 # =============================
@@ -93,9 +94,7 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.show()
 
-    df.corr()["Pago_atiempo"].sort_values(ascending=False)
-
-
+    
 
     print("""
 Evaluación de modelos:
@@ -126,9 +125,13 @@ best_model = models[best_model_name]
 best_pipe = build_model(preprocessor, best_model)
 best_pipe.fit(X_train, y_train)
 
-# Guardar en miops_pipeline/ (sin crear carpetas nuevas)
-out_dir = os.path.join(os.path.dirname(__file__), "..", "miops_pipeline")
-os.makedirs(out_dir, exist_ok=True)
+# Guardar en mlops_pipeline/ (sin crear carpetas nuevas)
+import joblib
+import os
 
-joblib.dump(best_pipe, os.path.join(out_dir, "best_model.joblib"))
-print("Modelo guardado en miops_pipeline/best_model.joblib")
+root = os.path.dirname(os.path.dirname(__file__))
+model_path = os.path.join(root, "best_model.joblib")
+
+joblib.dump(pipe, model_path)
+
+print("Modelo guardado correctamente en:", model_path)
